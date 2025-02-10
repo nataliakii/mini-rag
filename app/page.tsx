@@ -52,13 +52,14 @@ export default function Home() {
 				<Navbar />
 				
 				{/* Search Input */}
-                {!loading && <input
+                {!loading && 
+                <><input
                     className='rounded border bg-white text-black p-2'
                     onChange={(e) => setSearch(e.target.value)}
                     onKeyDown={handleKeyPress}
                     type='text'
                     placeholder='Enter search term...'
-                />}
+                /></>}
 
                 {/* Search Button */}
                 {!loading &&<button 
