@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Test for Retrieval Augmented Generation (RAG)",
   description: "Generated Natalia Ki",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default function RootLayout({
