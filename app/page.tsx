@@ -11,8 +11,8 @@ export default function Home() {
 		title: string;
 		hashtags: string[];
 	} | null>( null );
-	const [ loading, setLoading ] = useState<Boolean>( false );
-	const [error, setError] = useState<String | null>(null);
+	const [ loading, setLoading ] = useState<boolean>( false );
+	const [error, setError] = useState<string | null>(null);
 
 	const handleSearch = async () =>
 	{

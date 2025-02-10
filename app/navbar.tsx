@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Link from "next/link"
 import { Menu, X } from "lucide-react"; // Icons for mobile menu
 
 export default function Navbar ()  {
@@ -8,15 +9,15 @@ export default function Navbar ()  {
         <nav className="fixed top-0 left-0 w-full bg-white shadow-md p-4 sm:p-6 z-50">
             <div className="container mx-auto flex justify-between items-center">
                 {/* Logo */}
-                <a href="/" className="text-2xl font-bold text-blue-600">
+                <Link href="/" className="text-2xl font-bold text-blue-600">
                     Natalia Ki
-                </a>
+                </Link>
 
                 {/* Desktop Menu */}
                 <ul className="hidden sm:flex space-x-6 text-gray-700 font-medium">
-                    <li><a href="/" className="hover:text-blue-500 transition">Home</a></li>
-                    <li><a href="https://bbqr.site/me" className="hover:text-blue-500 transition">About</a></li>
-                    <li><a href="https://bbqr.site/me" className="hover:text-blue-500 transition">Contact</a></li>
+                    <Link href="/" className="hover:text-blue-500 transition">Home</Link>
+                    <Link href="https://bbqr.site/me" className="hover:text-blue-500 transition">About</Link>
+                    <Link href="https://bbqr.site/me" className="hover:text-blue-500 transition">Contact</Link>
                 </ul>
 
                 {/* Search Button */}

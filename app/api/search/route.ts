@@ -44,7 +44,7 @@ const developerHiringJokes = [
   }
 ];
 
-export async function POST(req: Request, res: NextResponse) {
+export async function POST(req: Request) {
 	const body = await req.json();
 	const { search } = body;
 	try
