@@ -119,8 +119,8 @@ export default function BirthVibesForm() {
   };
 
   return (
-    <div className="w-full max-w-5xl rounded-2xl border border-zinc-200 p-6 sm:p-8 bg-white/90 text-black shadow-xl">
-      <div className="mt-6 flex flex-col sm:flex-row gap-3 items-center sm:justify-center">
+    <div className="w-full max-w-5xl rounded-2xl border border-zinc-200 p-3 sm:p-8 bg-white/90 text-black shadow-xl">
+      <div className="mt-3 flex flex-col sm:flex-row gap-2 sm:gap-3 items-center sm:justify-center">
         <input
           type="text"
           value={name}
@@ -153,12 +153,12 @@ export default function BirthVibesForm() {
         </button>
       </div>
 
-      <p className="text-base sm:text-lg text-zinc-600 mt-4 text-center">
+      <p className="text-base sm:text-lg text-zinc-600 mt-2 text-center">
         Pick your birthday and discover your birth vibes.
       </p>
 
       {loading && (
-        <div className="mt-4 text-sm text-zinc-600 animate-pulse">
+        <div className="mt-2 text-sm text-zinc-600 animate-pulse">
           <span>{loadingMessage}</span>
           <span className="inline-flex ml-1">
             <span className="animate-[fadeIn_700ms_ease-in-out_infinite]">.</span>
@@ -168,20 +168,16 @@ export default function BirthVibesForm() {
         </div>
       )}
 
-      {error && <p className="mt-4 text-red-600">{error}</p>}
+      {error && <p className="mt-2 text-red-600">{error}</p>}
 
       {result && (
-        <div className="mt-8 space-y-6 rounded-2xl bg-zinc-50 p-4 sm:p-6 border border-zinc-200 shadow-[0_0_40px_rgba(168,85,247,0.15)] animate-[fadeInUp_500ms_ease-out]">
-          <p className="text-base opacity-0 animate-[fadeInUp_400ms_ease-out_80ms_forwards]">
-            🎵 <strong>{result.song.title}</strong> - {result.song.artist}
-          </p>
-
-          <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-500 ease-out opacity-0 scale-95 animate-[fadeInUp_500ms_ease-out_140ms_forwards]">
-            <p className="text-sm font-medium mb-2">🎵 This was playing while you were being born</p>
+        <div className="mt-5 space-y-3 rounded-2xl bg-zinc-50 p-2 sm:p-6 border border-zinc-200 shadow-[0_0_40px_rgba(168,85,247,0.15)] animate-[fadeInUp_500ms_ease-out]">
+          <div className="rounded-2xl border border-zinc-200 bg-white p-2 sm:p-4 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-500 ease-out opacity-0 scale-95 animate-[fadeInUp_500ms_ease-out_140ms_forwards]">
+            <p className="text-sm font-medium mb-1 sm:mb-2">🎵 This was playing while you were being born</p>
             <MusicPlayer playable={result.playable} />
           </div>
 
-          <div className="rounded-2xl bg-amber-50 border border-amber-200 p-4 opacity-0 animate-[fadeInUp_500ms_ease-out_240ms_forwards]">
+          <div className="rounded-2xl bg-amber-50 border border-amber-200 p-3 sm:p-4 opacity-0 animate-[fadeInUp_500ms_ease-out_240ms_forwards]">
             <p className="leading-relaxed">{result.text}</p>
 
             <div className="mt-4 flex flex-col sm:flex-row gap-2 sm:items-center">
