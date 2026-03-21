@@ -13,26 +13,27 @@ export const metadata: Metadata = {
   description:
     "Find out what was playing in cinemas and on the radio when you were born.",
   openGraph: {
-    title: "Your Birth Scene",
+    title: "Your Birth Scene 🎬",
     description:
-      "I just discovered my birth vibe - movie, music and the moment I entered the world.",
+      "I just discovered my birth vibe — movie, music and the moment I entered the world.",
     url: "https://nataliaki-rag.vercel.app",
     siteName: "Birth Vibes",
     images: [
       {
-        url: "/logo8.png",
+        url: "/og-image.png",
         width: 1200,
         height: 630,
+        alt: "Birth Vibes preview",
       },
     ],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Your Birth Scene",
+    title: "Your Birth Scene 🎬",
     description:
-      "I just discovered my birth vibe - movie, music and the moment I entered the world.",
-    images: ["/logo8.png"],
+      "I just discovered my birth vibe — movie, music and the moment I entered the world.",
+    images: ["/og-image.png"],
   },
   icons: {
     icon: "/logo8.png",

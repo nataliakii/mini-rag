@@ -57,12 +57,12 @@ export default function BirthVibesForm({
 
   const getShareIntro = (language: SupportedLanguage) => {
     const intros: Record<SupportedLanguage, string> = {
-      russian: "Такая вот история моего рождения:",
-      ukrainian: "Ось така історія мого народження:",
-      french: "Voici l'histoire de ma naissance :",
-      greek: "Να η ιστορία της γέννησής μου:",
-      spanish: "Aquí está la historia de mi nacimiento:",
-      german: "Hier ist die Geschichte meiner Geburt:",
+      russian: "Вот так началась моя история 🎬",
+      ukrainian: "Ось як почалася моя історія 🎬",
+      french: "Voici comment mon histoire a commencé 🎬",
+      greek: "Ετσι ξεκινησε η ιστορια μου 🎬",
+      spanish: "Asi comenzo mi historia 🎬",
+      german: "So begann meine Geschichte 🎬",
     };
     return intros[language];
   };
