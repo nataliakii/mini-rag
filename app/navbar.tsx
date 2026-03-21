@@ -10,9 +10,9 @@ export default function Navbar ()  {
         <nav className="fixed top-0 left-0 w-full bg-white shadow-md p-2 sm:p-4 z-50">
             <div className="container mx-auto flex justify-between items-center">
                 {/* Logo */}
-                <Link href="/" className="flex items-center rounded-xl bg-zinc-900 px-3 py-2 shadow-sm">
+                <Link href="/" className="flex items-center">
                     <Image
-                        src="/logo4.png"
+                        src="/logo7.png"
                         alt="Nataliaki logo"
                         width={150}
                         height={46}

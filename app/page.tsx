@@ -186,11 +186,11 @@ export default function Home() {
           <div className="flex flex-col items-center gap-2 text-sm text-zinc-700">
             <p className="font-medium text-center">Built with AI + a bit of magic ✨</p>
             <Image
-              src="/logo4.png"
+              src="/logo7.png"
               alt="Nataliaki logo"
               width={130}
               height={74}
-              className="rounded-xl bg-zinc-900 px-3 py-2 object-contain"
+              className="rounded object-contain"
             />
           </div>
         </footer>
