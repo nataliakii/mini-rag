@@ -70,6 +70,10 @@ ${topMoviesPreview}
         ? `A person named ${name} was born on ${date}${time ? ` at ${time}` : ""}.`
         : `A person was born on ${date}${time ? ` at ${time}` : ""}.`;
 
+    const birthMomentInstruction = time
+      ? `Explicitly mention both the birth date (${date}) and exact birth time (${time}) in the story.`
+      : `Explicitly mention the birth date (${date}) in the story.`;
+
     const prompt = `${subjectIntro}
 
 During that birth week, the world was listening to songs like:
@@ -85,6 +89,7 @@ Tone: emotional, cinematic, and lightly funny.
 Include two parallel scenes:
 - cinema scene (movie world)
 - hospital/radio scene (song world)
+${birthMomentInstruction}
 Keep it to 2-4 sentences.
 End with a dramatic, cinematic final sentence announcing the birth moment.
 If a name is provided, include it naturally in that final line.
