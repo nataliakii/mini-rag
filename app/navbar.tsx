@@ -1,16 +1,23 @@
 import { useState } from "react";
 import Link from "next/link"
+import Image from "next/image";
 import { Menu, X } from "lucide-react"; // Icons for mobile menu
 
 export default function Navbar ()  {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     return (
-        <nav className="fixed top-0 left-0 w-full bg-white shadow-md p-4 sm:p-6 z-50">
+        <nav className="fixed top-0 left-0 w-full bg-white shadow-md p-2 sm:p-4 z-50">
             <div className="container mx-auto flex justify-between items-center">
                 {/* Logo */}
-                <Link href="/" className="text-2xl font-bold text-blue-600">
-                    Natalia Ki
+                <Link href="/" className="flex items-center">
+                    <Image
+                        src="/logo7.png"
+                        alt="Nataliaki logo"
+                        width={150}
+                        height={46}
+                        className="rounded-md object-contain"
+                    />
                 </Link>
 
                 {/* Desktop Menu */}

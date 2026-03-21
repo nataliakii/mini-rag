@@ -29,7 +29,13 @@ const languageOptions: Array<{ value: SupportedLanguage; label: string }> = [
   { value: "german", label: "Deutsch" },
 ];
 
-export default function BirthVibesForm() {
+type BirthVibesFormProps = {
+  accentGradient?: string;
+};
+
+export default function BirthVibesForm({
+  accentGradient = "bg-gradient-to-r from-purple-500 to-pink-500",
+}: BirthVibesFormProps) {
   const loadingPhrases = [
     "Reconstructing your birth moment...",
     "Scanning cinemas and radio waves...",
@@ -47,6 +53,78 @@ export default function BirthVibesForm() {
   const [translatedText, setTranslatedText] = useState<string | null>(null);
   const [translationLoading, setTranslationLoading] = useState(false);
   const [translationError, setTranslationError] = useState<string | null>(null);
+  const [shareError, setShareError] = useState<string | null>(null);
+
+  const getShareIntro = (language: SupportedLanguage) => {
+    const intros: Record<SupportedLanguage, string> = {
+      russian: "Такая вот история моего рождения:",
+      ukrainian: "Ось така історія мого народження:",
+      french: "Voici l'histoire de ma naissance :",
+      greek: "Να η ιστορία της γέννησής μου:",
+      spanish: "Aquí está la historia de mi nacimiento:",
+      german: "Hier ist die Geschichte meiner Geburt:",
+    };
+    return intros[language];
+  };
+
+  const resolveShareableUrl = () => {
+    if (typeof window === "undefined") {
+      return null;
+    }
+
+    const currentUrl = window.location.href;
+    const hostname = window.location.hostname;
+    const isLocalhost =
+      hostname === "localhost" ||
+      hostname === "127.0.0.1" ||
+      hostname === "::1" ||
+      hostname.endsWith(".local");
+
+    if (!isLocalhost) {
+      return currentUrl;
+    }
+
+    const publicUrl = process.env.NEXT_PUBLIC_APP_URL?.trim();
+    if (!publicUrl) {
+      return null;
+    }
+
+    return publicUrl;
+  };
+
+  const handleShare = (platform: "facebook" | "linkedin" | "x") => {
+    if (!result?.text) {
+      return;
+    }
+
+    const pageUrl = resolveShareableUrl();
+    if (!pageUrl) {
+      setShareError(
+        "Sharing from localhost is limited. Add NEXT_PUBLIC_APP_URL to .env.local with your deployed app URL."
+      );
+      return;
+    }
+
+    setShareError(null);
+    const storyToShare = translatedText?.trim() ? translatedText : result.text;
+    const shareText = `${getShareIntro(targetLanguage)} ${storyToShare}`;
+    const encodedUrl = encodeURIComponent(pageUrl);
+    const encodedText = encodeURIComponent(shareText);
+    const xText = encodeURIComponent(
+      shareText.length > 240 ? `${shareText.slice(0, 237)}...` : shareText
+    );
+
+    let shareUrl = "";
+    if (platform === "facebook") {
+      shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`;
+    } else if (platform === "linkedin") {
+      shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
+    } else {
+      shareUrl = `https://twitter.com/intent/tweet?text=${xText}&url=${encodedUrl}`;
+    }
+
+    window.open(shareUrl, "_blank", "noopener,noreferrer");
+  };
 
   const handleSubmit = async (preserveResult = false) => {
     if (!date) {
@@ -146,7 +224,7 @@ export default function BirthVibesForm() {
           className={`rounded-xl px-4 py-2 text-white transition-transform ${
             loading
               ? "bg-zinc-400 cursor-not-allowed"
-              : "bg-gradient-to-r from-purple-500 to-pink-500 hover:scale-105"
+              : `${accentGradient} hover:scale-105`
           }`}
         >
           {loading ? "Loading vibe..." : "Reveal my vibe"}
@@ -198,7 +276,7 @@ export default function BirthVibesForm() {
                 className={`rounded-xl px-4 py-2 text-sm text-white transition-transform ${
                   translationLoading
                     ? "bg-zinc-400 cursor-not-allowed"
-                    : "bg-gradient-to-r from-purple-500 to-pink-500 hover:scale-105"
+                    : `${accentGradient} hover:scale-105`
                 }`}
               >
                 {translationLoading ? "Translating..." : "Translate story"}
@@ -214,6 +292,31 @@ export default function BirthVibesForm() {
                 <p className="leading-relaxed">{translatedText}</p>
               </div>
             )}
+
+            <div className="mt-4 flex flex-wrap items-center gap-2">
+              <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+                Share:
+              </span>
+              <button
+                onClick={() => handleShare("facebook")}
+                className="rounded-lg px-3 py-1.5 text-xs text-white bg-[#1877F2] hover:scale-105 transition-transform"
+              >
+                Facebook
+              </button>
+              <button
+                onClick={() => handleShare("linkedin")}
+                className="rounded-lg px-3 py-1.5 text-xs text-white bg-[#0A66C2] hover:scale-105 transition-transform"
+              >
+                LinkedIn
+              </button>
+              <button
+                onClick={() => handleShare("x")}
+                className="rounded-lg px-3 py-1.5 text-xs text-white bg-black hover:scale-105 transition-transform"
+              >
+                X
+              </button>
+            </div>
+            {shareError && <p className="mt-2 text-xs text-red-600">{shareError}</p>}
           </div>
 
           {result.movie ? (
@@ -256,7 +359,7 @@ export default function BirthVibesForm() {
           <button
             onClick={() => handleSubmit(true)}
             disabled={loading}
-            className="mt-1 rounded-xl px-4 py-2 text-sm text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:scale-105 transition-transform disabled:bg-zinc-400 disabled:scale-100 opacity-0 animate-[fadeInUp_500ms_ease-out_420ms_forwards]"
+            className={`mt-1 rounded-xl px-4 py-2 text-sm text-white ${accentGradient} hover:scale-105 transition-transform disabled:bg-zinc-400 disabled:scale-100 opacity-0 animate-[fadeInUp_500ms_ease-out_420ms_forwards]`}
           >
             Generate another version
           </button>

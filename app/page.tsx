@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import BirthVibesForm from "@/components/BirthVibesForm";
 import Navbar from "./navbar";
 
@@ -9,6 +10,14 @@ type LinkedInResponse = {
   aboutNataliaki: string;
   title: string;
   hashtags: string[];
+};
+
+const theme = {
+  pageGradient: "bg-gradient-to-br from-indigo-50 via-white to-pink-50",
+  blobA: "bg-purple-200/40",
+  blobB: "bg-pink-200/50",
+  heroGradient: "bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500",
+  accentGradient: "bg-gradient-to-r from-purple-500 to-pink-500",
 };
 
 export default function Home() {
@@ -57,17 +66,25 @@ export default function Home() {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-pink-50 p-6 pb-16 sm:p-12 font-[family-name:var(--font-geist-sans)]">
+    <div
+      className={`relative min-h-screen overflow-hidden ${theme.pageGradient} p-4 pb-12 sm:p-12 sm:pb-12 font-[family-name:var(--font-geist-sans)]`}
+    >
       <div className="pointer-events-none absolute inset-0 opacity-60">
-        <div className="absolute -top-20 -left-16 h-72 w-72 rounded-full bg-purple-200/40 blur-3xl animate-pulse" />
-        <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-pink-200/50 blur-3xl animate-pulse" />
+        <div
+          className={`absolute -top-20 -left-16 h-72 w-72 rounded-full ${theme.blobA} blur-3xl animate-pulse`}
+        />
+        <div
+          className={`absolute bottom-0 right-0 h-80 w-80 rounded-full ${theme.blobB} blur-3xl animate-pulse`}
+        />
       </div>
 
       <main className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center gap-8">
         <Navbar />
 
         <section className="mt-16 text-center animate-[fadeIn_900ms_ease-out]">
-          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 bg-clip-text text-transparent">
+          <h1
+            className={`text-4xl sm:text-5xl font-extrabold tracking-tight ${theme.heroGradient} bg-clip-text text-transparent`}
+          >
             The World When You Arrived
           </h1>
           <p className="mt-4 text-zinc-600 max-w-xl mx-auto">
@@ -80,7 +97,7 @@ export default function Home() {
             onClick={() => setTab("birth")}
             className={`rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-300 ${
               tab === "birth"
-                ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow"
+                ? `${theme.accentGradient} text-white shadow`
                 : "text-zinc-600 hover:text-black hover:scale-[1.02]"
             }`}
           >
@@ -90,7 +107,7 @@ export default function Home() {
             onClick={() => setTab("linkedin")}
             className={`rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-300 ${
               tab === "linkedin"
-                ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow"
+                ? `${theme.accentGradient} text-white shadow`
                 : "text-zinc-600 hover:text-black hover:scale-[1.02]"
             }`}
           >
@@ -98,7 +115,7 @@ export default function Home() {
           </button>
         </div>
 
-        {tab === "birth" && <BirthVibesForm />}
+        {tab === "birth" && <BirthVibesForm accentGradient={theme.accentGradient} />}
 
         {tab === "linkedin" && (
           <div className="w-full flex flex-col gap-4 items-center">
@@ -115,7 +132,7 @@ export default function Home() {
             {!loading && (
               <button
                 onClick={handleSearch}
-                className="rounded-xl px-5 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white transition-transform hover:scale-105"
+                className={`rounded-xl px-5 py-2 ${theme.accentGradient} text-white transition-transform hover:scale-105`}
               >
                 {loading ? "Searching..." : "Search"}
               </button>
@@ -165,7 +182,18 @@ export default function Home() {
           </div>
         )}
 
-        <p className="text-xs text-zinc-500 pt-2">Built with AI + a bit of magic ✨</p>
+        <footer className="mt-3 w-full max-w-4xl rounded-2xl border border-zinc-200 bg-white px-5 py-4 shadow-lg">
+          <div className="flex flex-col items-center gap-2 text-sm text-zinc-700">
+            <p className="font-medium text-center">Built with AI + a bit of magic ✨</p>
+            <Image
+              src="/logo7.png"
+              alt="Nataliaki logo"
+              width={130}
+              height={74}
+              className="rounded object-contain"
+            />
+          </div>
+        </footer>
       </main>
     </div>
   );

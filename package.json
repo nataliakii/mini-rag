@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "data:build": "node scripts/csv-to-json.mjs",
     "data:prepare": "tsx scripts/prepare-datasets.ts",
-    "songs:build": "tsx scripts/build-songs.ts"
+    "songs:build": "tsx scripts/build-songs.ts",
+    "songs:import-latest": "node scripts/import-hot100-latest.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.475.0",
