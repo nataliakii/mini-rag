@@ -68,7 +68,7 @@ export default function Home() {
 
         <section className="mt-16 text-center animate-[fadeIn_900ms_ease-out]">
           <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 bg-clip-text text-transparent">
-            Discover Your Birth Vibe
+            The World When You Arrived
           </h1>
           <p className="mt-4 text-zinc-600 max-w-xl mx-auto">
             Find out what was happening in cinemas and on the radio while you were being born.
