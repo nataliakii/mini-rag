@@ -54,6 +54,7 @@ export default function BirthVibesForm({
   const [translationLoading, setTranslationLoading] = useState(false);
   const [translationError, setTranslationError] = useState<string | null>(null);
   const [shareError, setShareError] = useState<string | null>(null);
+  const [shareNotice, setShareNotice] = useState<string | null>(null);
 
   const getShareIntro = (language: SupportedLanguage) => {
     const intros: Record<SupportedLanguage, string> = {
@@ -92,7 +93,7 @@ export default function BirthVibesForm({
     return publicUrl;
   };
 
-  const handleShare = (platform: "facebook" | "linkedin" | "x") => {
+  const handleShare = async (platform: "facebook" | "linkedin" | "x") => {
     if (!result?.text) {
       return;
     }
@@ -102,10 +103,12 @@ export default function BirthVibesForm({
       setShareError(
         "Sharing from localhost is limited. Add NEXT_PUBLIC_APP_URL to .env.local with your deployed app URL."
       );
+      setShareNotice(null);
       return;
     }
 
     setShareError(null);
+    setShareNotice(null);
     const storyToShare = translatedText?.trim() ? translatedText : result.text;
     const shareText = `${getShareIntro(targetLanguage)} ${storyToShare}`;
     const encodedUrl = encodeURIComponent(pageUrl);
@@ -119,6 +122,14 @@ export default function BirthVibesForm({
       shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`;
     } else if (platform === "linkedin") {
       shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
+      try {
+        await navigator.clipboard.writeText(`${shareText}\n\n${pageUrl}`);
+        setShareNotice("Text copied. Paste it into the LinkedIn post after the share window opens.");
+      } catch {
+        setShareNotice(
+          "LinkedIn does not reliably prefill text. Copy your story manually and paste it into the post."
+        );
+      }
     } else {
       shareUrl = `https://twitter.com/intent/tweet?text=${xText}&url=${encodedUrl}`;
     }
@@ -317,6 +328,7 @@ export default function BirthVibesForm({
               </button>
             </div>
             {shareError && <p className="mt-2 text-xs text-red-600">{shareError}</p>}
+            {shareNotice && <p className="mt-2 text-xs text-zinc-600">{shareNotice}</p>}
           </div>
 
           {result.movie ? (
