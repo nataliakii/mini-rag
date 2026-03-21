@@ -65,8 +65,12 @@ ${topMoviesPreview}
 `
         : "";
 
-    const subjectLabel = name && name.length > 0 ? name : "this child";
-    const prompt = `A person named ${subjectLabel} was born on ${date}${time ? ` at ${time}` : ""}.
+    const subjectIntro =
+      name && name.length > 0
+        ? `A person named ${name} was born on ${date}${time ? ` at ${time}` : ""}.`
+        : `A person was born on ${date}${time ? ` at ${time}` : ""}.`;
+
+    const prompt = `${subjectIntro}
 
 During that birth week, the world was listening to songs like:
 ${topSongsPreview}
@@ -84,6 +88,7 @@ Include two parallel scenes:
 Keep it to 2-4 sentences.
 End with a dramatic, cinematic final sentence announcing the birth moment.
 If a name is provided, include it naturally in that final line.
+If no name is provided, do not invent one and keep wording neutral.
 Do not copy templates word-for-word; vary phrasing every time.
 Examples of tone only (do not copy): "And just like that, NAME entered the world...", "a new story began — NAME."
 No hashtags.`;

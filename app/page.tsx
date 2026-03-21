@@ -63,7 +63,7 @@ export default function Home() {
         <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-pink-200/50 blur-3xl animate-pulse" />
       </div>
 
-      <main className="relative z-10 mx-auto flex w-full max-w-4xl flex-col items-center gap-8">
+      <main className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center gap-8">
         <Navbar />
 
         <section className="mt-16 text-center animate-[fadeIn_900ms_ease-out]">

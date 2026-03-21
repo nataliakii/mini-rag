@@ -119,13 +119,13 @@ export default function BirthVibesForm() {
   };
 
   return (
-    <div className="w-full max-w-4xl rounded-2xl border border-zinc-200 p-6 sm:p-8 bg-white/90 text-black shadow-xl">
-      <h2 className="text-2xl sm:text-3xl font-bold">Born Into This Era</h2>
-      <p className="text-sm text-zinc-600 mt-1">
+    <div className="w-full max-w-5xl rounded-2xl border border-zinc-200 p-6 sm:p-8 bg-white/90 text-black shadow-xl">
+      <h2 className="text-2xl sm:text-3xl font-bold text-center">Born Into This Era</h2>
+      <p className="text-sm text-zinc-600 mt-1 text-center">
         Pick your birthday and reveal your weekly pop-culture destiny.
       </p>
 
-      <div className="mt-6 flex flex-col sm:flex-row gap-3">
+      <div className="mt-6 flex flex-col sm:flex-row gap-3 items-center sm:justify-center">
         <input
           type="text"
           value={name}
