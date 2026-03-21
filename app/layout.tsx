@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     siteName: "BIRTH VIBES",
     images: [
       {
-        url: "/og-image.png",
+        url: "/og-image.png?v=20260321-1",
         width: 1200,
         height: 630,
         alt: "BIRTH VIBES preview",
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     title: "Your Birth Scene 🎬",
     description:
       "I just discovered my birth vibe — movie, music and the moment I entered the world.",
-    images: ["/og-image.png"],
+    images: ["/og-image.png?v=20260321-1"],
   },
   icons: {
     icon: "/logo8.png",
