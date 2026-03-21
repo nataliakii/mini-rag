@@ -9,7 +9,7 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://nataliaki-rag.vercel.app"),
-  title: "Birth Vibes — Discover Your Moment with AI",
+  title: "BIRTH VIBES — Discover Your Moment with AI",
   description:
     "Find out what was playing in cinemas and on the radio when you were born.",
   openGraph: {
@@ -17,13 +17,13 @@ export const metadata: Metadata = {
     description:
       "I just discovered my birth vibe — movie, music and the moment I entered the world.",
     url: "https://nataliaki-rag.vercel.app",
-    siteName: "Birth Vibes",
+    siteName: "BIRTH VIBES",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Birth Vibes preview",
+        alt: "BIRTH VIBES preview",
       },
     ],
     type: "website",

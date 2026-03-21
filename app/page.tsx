@@ -101,7 +101,7 @@ export default function Home() {
                 : "text-zinc-600 hover:text-black hover:scale-[1.02]"
             }`}
           >
-            Birth Vibes
+            BIRTH VIBES
           </button>
           <button
             onClick={() => setTab("linkedin")}
@@ -186,11 +186,11 @@ export default function Home() {
           <div className="flex flex-col items-center gap-2 text-sm text-zinc-700">
             <p className="font-medium text-center">Built with AI + a bit of magic ✨</p>
             <Image
-              src="/logo7.png"
+              src="/logo4.png"
               alt="Nataliaki logo"
               width={130}
               height={74}
-              className="rounded object-contain"
+              className="rounded-xl bg-zinc-900 px-3 py-2 object-contain"
             />
           </div>
         </footer>
