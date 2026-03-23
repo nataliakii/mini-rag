@@ -14,13 +14,13 @@ export const metadata: Metadata = {
   title: "BIRTH VIBES — Discover Your Moment with AI",
   description:
     "Find out what was playing in cinemas and on the radio when you were born.",
+  ...(facebookAppId ? { facebook: { appId: facebookAppId } } : {}),
   openGraph: {
     title: "Your Birth Scene 🎬",
     description:
       "I just discovered my birth vibe — movie, music and the moment I entered the world.",
     url: "https://fun.bbqr.site",
     siteName: "BIRTH VIBES",
-    appId: facebookAppId,
     images: [
       {
         url: "/og-image.png?v=20260321-1",
