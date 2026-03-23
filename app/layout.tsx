@@ -7,8 +7,10 @@ const montserrat = Montserrat({
   subsets: ["latin"],
 });
 
+const facebookAppId = process.env.NEXT_PUBLIC_FACEBOOK_APP_ID?.trim();
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://nataliaki-rag.vercel.app"),
+  metadataBase: new URL("https://fun.bbqr.site"),
   title: "BIRTH VIBES — Discover Your Moment with AI",
   description:
     "Find out what was playing in cinemas and on the radio when you were born.",
@@ -16,8 +18,9 @@ export const metadata: Metadata = {
     title: "Your Birth Scene 🎬",
     description:
       "I just discovered my birth vibe — movie, music and the moment I entered the world.",
-    url: "https://nataliaki-rag.vercel.app",
+    url: "https://fun.bbqr.site",
     siteName: "BIRTH VIBES",
+    appId: facebookAppId,
     images: [
       {
         url: "/og-image.png?v=20260321-1",

@@ -14,6 +14,7 @@
     "songs:import-latest": "node scripts/import-hot100-latest.mjs"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.100.0",
     "lucide-react": "^0.475.0",
     "next": "^16.2.1",
     "openai": "^4.80.1",

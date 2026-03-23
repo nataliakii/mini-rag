@@ -3,6 +3,7 @@ import OpenAI from "openai";
 import { getBirthMovies } from "@/lib/tmdb/getBirthMovies";
 import { getPlayableTrack } from "@/lib/music/getPlayableTrack";
 import { getSongsForWeek } from "@/lib/songs/getSongsForWeek";
+import { logBirthVibesToSupabase } from "@/lib/analytics/logBirthVibesToSupabase";
 
 const openai = new OpenAI({
   apiKey: process.env.OPEN_AI_API_KEY,
@@ -103,6 +104,20 @@ No hashtags.`;
       messages: [{ role: "user", content: prompt }],
     });
 
+    const storyText = completion.choices[0].message.content ?? "";
+
+    void logBirthVibesToSupabase({
+      name: name ?? "",
+      birthDate: date,
+      birthTime: time?.trim() ?? "",
+      songTitle: songsData.selectedSong.title,
+      songArtist: songsData.selectedSong.artist,
+      movieTitle: selectedMovie?.title ?? "",
+      story: storyText,
+    }).catch((err) => {
+      console.error("[birth-vibes] Supabase analytics insert failed:", err);
+    });
+
     return NextResponse.json({
       movie: selectedMovie
         ? {
@@ -118,7 +133,7 @@ No hashtags.`;
         artist: songsData.selectedSong.artist,
       },
       playable,
-      text: completion.choices[0].message.content ?? "",
+      text: storyText,
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown server error";

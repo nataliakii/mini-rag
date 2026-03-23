@@ -60,11 +60,11 @@ function buildTop10Songs(rows: CsvRow[]): Record<string, RankedSong[]> {
   const songs: Record<string, RankedSong[]> = {};
 
   for (const row of rows) {
-    const rank = Number(row.rank);
+    const rank = Number(row.rank ?? row.current_position);
     const dateRaw = row.chart_date || row.date;
     const weekDate = normalizeDateToWeek(dateRaw ?? "");
     const title = row.title || row.song;
-    const artist = row.artist;
+    const artist = row.artist || row.performer;
 
     if (!weekDate || !title || !artist || !Number.isFinite(rank) || rank < 1 || rank > 10) {
       continue;
@@ -86,15 +86,38 @@ function buildTop10Songs(rows: CsvRow[]): Record<string, RankedSong[]> {
 
 async function main() {
   const root = process.cwd();
-  const songsCsvPath = path.join(root, "data", "raw", "songs.csv");
+  /** Same sources as `prepare-datasets.ts` — not only `data/raw/songs.csv`. */
+  const songsCsvCandidates = [
+    path.join(root, "data", "songs", "hot100_archive_1958_2021.csv"),
+    path.join(root, "data", "raw", "songs.csv"),
+  ];
   const songsOutPath = path.join(root, "data", "songs.json");
 
-  const csvText = await readFile(songsCsvPath, "utf8");
+  let csvText: string | null = null;
+  let sourcePath: string | null = null;
+  for (const candidate of songsCsvCandidates) {
+    try {
+      csvText = await readFile(candidate, "utf8");
+      sourcePath = candidate;
+      break;
+    } catch {
+      // try next
+    }
+  }
+
+  if (!csvText || !sourcePath) {
+    throw new Error(
+      "Songs CSV not found. Expected data/songs/hot100_archive_1958_2021.csv or data/raw/songs.csv (same as npm run data:prepare)"
+    );
+  }
+
   const rows = parseCsv(csvText);
   const songs = buildTop10Songs(rows);
 
   await writeFile(songsOutPath, `${JSON.stringify(songs, null, 2)}\n`, "utf8");
-  console.log(`Songs (top 10) ready ✅ weeks=${Object.keys(songs).length}`);
+  console.log(
+    `Songs (top 10) ready ✅ source=${path.basename(sourcePath)} weeks=${Object.keys(songs).length}`
+  );
 }
 
 main().catch((error) => {

@@ -62,7 +62,7 @@ npm run dev
 - `npm run lint` - запуск линтера
 - `npm run data:build` - конвертация `data/raw/*.csv` в `data/*.json` (только записи с `rank = 1`)
 - `npm run data:prepare` - weekly-нормализация и подготовка `data/*.json` из `data/raw/*.csv`
-- `npm run songs:build` - сборка только `data/songs.json` как weekly top-10
+- `npm run songs:build` - сборка только `data/songs.json` (top-10 по неделям; источник: `data/songs/hot100_archive_1958_2021.csv` или `data/raw/songs.csv`, как у `data:prepare`)
 
 ## Структура проекта
 
@@ -70,6 +70,7 @@ npm run dev
 - `app/api/search/route.ts` - серверный роут с вызовом OpenAI
 - `app/api/birth-vibes/route.ts` - API для вкладки Birth Vibes
 - `components/BirthVibesForm.tsx` - UI формы Birth Vibes
+- `lib/analytics/logBirthVibesToSupabase.ts` - запись событий Birth Vibes в Supabase
 - `lib/findClosestDate.ts` - fallback-поиск ближайшей даты назад
 - `lib/normalizeDateToWeek.ts` - нормализация даты пользователя к старту недели
 - `lib/getRandomSong.ts` - random/weighted-random выбор песни недели
@@ -128,10 +129,26 @@ npm run dev
 }
 ```
 
+## Аналитика Birth Vibes (Supabase)
+
+После каждой **успешной** генерации API пишет строку в таблицу **`birth_vibes_events`** в Supabase (имя, дата/время рождения, песня, фильм, текст истории).
+
+1. В Supabase: **SQL Editor** → выполни скрипт из `supabase/migrations/001_birth_vibes_events.sql`.
+2. В `.env.local` / Vercel добавь (секреты не коммитить):
+   - URL: `SUPABASE_URL` или **`NEXT_PUBLIC_SUPABASE_URL`** (как в новом UI Supabase)
+   - Ключ (по приоритету):
+     - **`SUPABASE_SERVICE_ROLE_KEY`** — лучший вариант (обходит RLS)
+     - или **`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY`** — если в дашборде только publishable: тогда **дополнительно** выполни SQL из `supabase/migrations/002_allow_anon_insert_birth_vibes.sql`, иначе `insert` упадёт по RLS.  
+       ⚠️ Publishable-ключ публичный: теоретически кто угодно может слать строки в эту таблицу — для серьёзного продакшена лучше найти **secret / service_role** в проекте.
+
+Строку `SUPABASE_CONNECTION_STRING` для этой фичи не используем (только JS-клиент).
+
+Без URL + ключа логирование пропускается (в консоли будет предупреждение).
+
 ## CSV -> JSON пайплайн
 
 1. Положите сырые CSV:
-   - `data/raw/songs.csv` (колонки: `date,rank,song,artist`)
+   - песни: `data/songs/hot100_archive_1958_2021.csv` или `data/raw/songs.csv` (колонки вроде `date`/`chart_date`, `rank`, `song`/`title`, `artist`)
    - `data/raw/movies.csv` (колонки: `date,title,rank`)
 2. Запустите:
 

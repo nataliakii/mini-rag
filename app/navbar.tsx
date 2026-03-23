@@ -16,7 +16,7 @@ export default function Navbar ()  {
                         alt="Nataliaki logo"
                         width={150}
                         height={46}
-                        className="rounded-md object-contain"
+                        className="h-auto w-[150px] rounded-md object-contain"
                     />
                 </Link>
 
