@@ -190,7 +190,8 @@ export default function Home() {
               alt="Nataliaki logo"
               width={130}
               height={74}
-              className="h-auto w-[130px] rounded object-contain"
+              className="rounded object-contain"
+              style={{ width: "auto", height: "auto", maxWidth: 130 }}
             />
           </div>
         </footer>

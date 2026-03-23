@@ -106,17 +106,21 @@ No hashtags.`;
 
     const storyText = completion.choices[0].message.content ?? "";
 
-    void logBirthVibesToSupabase({
-      name: name ?? "",
-      birthDate: date,
-      birthTime: time?.trim() ?? "",
-      songTitle: songsData.selectedSong.title,
-      songArtist: songsData.selectedSong.artist,
-      movieTitle: selectedMovie?.title ?? "",
-      story: storyText,
-    }).catch((err) => {
+    // Must await: on Vercel/serverless the runtime often freezes right after the response is sent,
+    // so fire-and-forget inserts frequently never complete.
+    try {
+      await logBirthVibesToSupabase({
+        name: name ?? "",
+        birthDate: date,
+        birthTime: time?.trim() ?? "",
+        songTitle: songsData.selectedSong.title,
+        songArtist: songsData.selectedSong.artist,
+        movieTitle: selectedMovie?.title ?? "",
+        story: storyText,
+      });
+    } catch (err) {
       console.error("[birth-vibes] Supabase analytics insert failed:", err);
-    });
+    }
 
     return NextResponse.json({
       movie: selectedMovie

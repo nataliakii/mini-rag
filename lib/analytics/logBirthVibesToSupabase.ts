@@ -34,6 +34,12 @@ export async function logBirthVibesToSupabase(row: BirthVibesEventRow): Promise<
   });
 
   if (error) {
+    console.error("[birth-vibes] Supabase error object:", {
+      message: error.message,
+      code: error.code,
+      details: error.details,
+      hint: error.hint,
+    });
     const msg = error.message;
     if (msg.includes("birth_vibes_events") && msg.includes("schema cache")) {
       throw new Error(
