@@ -5,7 +5,17 @@ const openai = new OpenAI({
   apiKey: process.env.OPEN_AI_API_KEY,
 });
 
-const supportedLanguages = new Set(["russian", "ukrainian", "greek", "spanish"]);
+const supportedLanguages = new Set([
+  "english",
+  "russian",
+  "ukrainian",
+  "french",
+  "german",
+  "greek",
+  "spanish",
+  "italian",
+  "turkish",
+]);
 
 export async function POST(req: Request) {
   try {

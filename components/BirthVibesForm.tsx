@@ -19,9 +19,19 @@ type BirthVibesResult = {
   text: string;
 };
 
-type SupportedLanguage = "russian" | "ukrainian" | "greek" | "spanish";
+type SupportedLanguage =
+  | "english"
+  | "russian"
+  | "ukrainian"
+  | "french"
+  | "german"
+  | "greek"
+  | "spanish"
+  | "italian"
+  | "turkish";
 
 const localeToTarget: Record<string, SupportedLanguage> = {
+  en: "english",
   ru: "russian",
   uk: "ukrainian",
   el: "greek",
@@ -45,10 +55,15 @@ export default function BirthVibesForm({
 
   const languageOptions: Array<{ value: SupportedLanguage; label: string }> = useMemo(
     () => [
+      { value: "english", label: t("langEnglish") },
       { value: "russian", label: t("langRussian") },
       { value: "ukrainian", label: t("langUkrainian") },
+      { value: "french", label: t("langFrench") },
+      { value: "german", label: t("langGerman") },
       { value: "greek", label: t("langGreek") },
       { value: "spanish", label: t("langSpanish") },
+      { value: "italian", label: t("langItalian") },
+      { value: "turkish", label: t("langTurkish") },
     ],
     [t]
   );
@@ -61,7 +76,7 @@ export default function BirthVibesForm({
   const [error, setError] = useState<string | null>(null);
   const [loadingMessage, setLoadingMessage] = useState<string>(loadingPhrases[0]);
   const [targetLanguage, setTargetLanguage] = useState<SupportedLanguage>(
-    () => localeToTarget[locale] ?? "russian"
+    () => localeToTarget[locale] ?? "english"
   );
   const [translatedText, setTranslatedText] = useState<string | null>(null);
   const [translationLoading, setTranslationLoading] = useState(false);
@@ -76,10 +91,15 @@ export default function BirthVibesForm({
 
   const getShareIntro = (language: SupportedLanguage) => {
     const keys: Record<SupportedLanguage, string> = {
+      english: t("shareIntroEnglish"),
       russian: t("shareIntroRussian"),
       ukrainian: t("shareIntroUkrainian"),
+      french: t("shareIntroFrench"),
+      german: t("shareIntroGerman"),
       greek: t("shareIntroGreek"),
       spanish: t("shareIntroSpanish"),
+      italian: t("shareIntroItalian"),
+      turkish: t("shareIntroTurkish"),
     };
     return keys[language];
   };
@@ -182,7 +202,7 @@ export default function BirthVibesForm({
 
       setResult(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : t("errorGeneric"));
+      setError(err instanceof Error ? err.message : t("errorUnexpected"));
     } finally {
       setLoading(false);
     }

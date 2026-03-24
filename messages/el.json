@@ -12,6 +12,7 @@
     "about": "Σχετικά",
     "contact": "Επικοινωνία",
     "logoAlt": "Λογότυπο Nataliaki",
+    "langEn": "EN",
     "langRu": "RU",
     "langUk": "UK",
     "langEl": "EL",
@@ -27,6 +28,7 @@
     "ragSearch": "Αναζήτηση",
     "ragSearching": "Αναζητώ…",
     "ragThinking": "Σκέφτομαι…",
+    "ragRequestFailed": "Το αίτημα απέτυχε",
     "ragErrorUnexpected": "Απρόσμενο σφάλμα"
   },
   "birth": {
@@ -36,6 +38,7 @@
     "subtitle": "Διάλεξε τα γενέθλιά σου και ανακάλυψε τα birth vibes σου.",
     "errorPickDate": "Διάλεξε πρώτα την ημερομηνία γέννησης.",
     "errorGeneric": "Αποτυχία φόρτωσης vibe.",
+    "errorUnexpected": "Απρόσμενο σφάλμα",
     "loading1": "Ξαναχτίζουμε τη στιγμή της γέννησής σου…",
     "loading2": "Σκανάρουμε σινεμά και κύματα ραδιοφώνου…",
     "loading3": "Ψάχνουμε το vibe σου…",
@@ -46,7 +49,7 @@
     "translationError": "Η μετάφραση απέτυχε.",
     "translationErrorUnexpected": "Απρόσμενο σφάλμα μετάφρασης.",
     "translationHeading": "Μετάφραση",
-    "share": "Κοινοποίηση",
+    "share": "Κοινοποίηση:",
     "shareLinkedInNotice": "Το κείμενο αντιγράφηκε. Επικόλλησέ το στο LinkedIn μετά το άνοιγμα του παραθύρου.",
     "shareLinkedInFallback": "Το LinkedIn δεν γεμίζει κείμενο αυτόματα. Αντέγραψε την ιστορία χειροκίνητα.",
     "shareErrorLocalhost": "Από localhost ο διαμοιρασμός είναι περιορισμένος. Βάλε NEXT_PUBLIC_APP_URL στο .env.local.",
@@ -56,13 +59,23 @@
     "posterUnavailable": "Αφίσα μη διαθέσιμη",
     "movieUnavailable": "🎬 Δεν υπάρχει ταινία για αυτή την ημερομηνία.",
     "regenerate": "Άλλη εκδοχή",
+    "langEnglish": "English",
     "langRussian": "Русский",
     "langUkrainian": "Українська",
+    "langFrench": "Γαλλικά",
+    "langGerman": "Γερμανικά",
     "langGreek": "Ελληνικά",
-    "langSpanish": "Español",
+    "langSpanish": "Ισπανικά",
+    "langItalian": "Ιταλικά",
+    "langTurkish": "Τουρκικά",
+    "shareIntroEnglish": "This is how my story began 🎬",
     "shareIntroRussian": "Вот так началась моя история 🎬",
     "shareIntroUkrainian": "Ось як почалася моя історія 🎬",
+    "shareIntroFrench": "Voici comment mon histoire a commencé 🎬",
+    "shareIntroGerman": "So begann meine Geschichte 🎬",
     "shareIntroGreek": "Ετσι ξεκινησε η ιστορια μου 🎬",
-    "shareIntroSpanish": "Asi comenzo mi historia 🎬"
+    "shareIntroSpanish": "Asi comenzo mi historia 🎬",
+    "shareIntroItalian": "Così è iniziata la mia storia 🎬",
+    "shareIntroTurkish": "Hikayem böyle başladı 🎬"
   }
 }

@@ -13,6 +13,7 @@ export default function Navbar() {
   const pathname = usePathname();
 
   const localeLabels: Record<string, string> = {
+    en: t("langEn"),
     ru: t("langRu"),
     uk: t("langUk"),
     el: t("langEl"),

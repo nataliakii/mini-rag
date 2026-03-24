@@ -46,7 +46,7 @@ export default function HomePage() {
 
       const data = await res.json();
       if (!res.ok) {
-        setError(data?.error ?? "Request failed");
+        setError(data?.error ?? t("ragRequestFailed"));
         return;
       }
 

@@ -16,6 +16,7 @@ const montserrat = Montserrat({
 const facebookAppId = process.env.NEXT_PUBLIC_FACEBOOK_APP_ID?.trim();
 
 function ogLocaleTag(loc: string): string {
+  if (loc === "en") return "en_US";
   if (loc === "el") return "el_GR";
   if (loc === "es") return "es_ES";
   if (loc === "uk") return "uk_UA";
