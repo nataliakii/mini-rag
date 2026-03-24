@@ -52,7 +52,7 @@ OPEN_AI_API_KEY=your_openai_api_key
 npm run dev
 ```
 
-4. Откройте [http://localhost:3000](http://localhost:3000)
+4. Откройте приложение: корень редиректит на локаль по умолчанию, например [http://localhost:3000/ru](http://localhost:3000/ru). Доступные префиксы: `/ru`, `/uk`, `/el`, `/es` (русский, украинский, греческий, испанский). Для SEO заданы `hreflang`, канонический URL и локализованные метаданные в `app/[locale]/layout.tsx`.
 
 ## Доступные скрипты
 
@@ -66,7 +66,7 @@ npm run dev
 
 ## Структура проекта
 
-- `app/page.tsx` - основной UI (поле ввода, отправка запроса, отображение ответа)
+- `app/[locale]/page.tsx` - главная страница с локализованным UI
 - `app/api/search/route.ts` - серверный роут с вызовом OpenAI
 - `app/api/birth-vibes/route.ts` - API для вкладки Birth Vibes
 - `components/BirthVibesForm.tsx` - UI формы Birth Vibes
@@ -76,7 +76,8 @@ npm run dev
 - `lib/getRandomSong.ts` - random/weighted-random выбор песни недели
 - `data/raw/*.csv` - исходные CSV-файлы
 - `data/songs.json`, `data/movies.json` - отфильтрованные данные для рантайма
-- `app/navbar.tsx` - навигационная панель
+- `components/Navbar.tsx` - навигация и переключатель языка
+- `middleware.ts`, `i18n/*`, `messages/*.json` - локализация (next-intl)
 - `app/globals.css` - глобальные стили
 
 ## API (кратко)
@@ -134,12 +135,19 @@ npm run dev
 После каждой **успешной** генерации API пишет строку в таблицу **`birth_vibes_events`** в Supabase (имя, дата/время рождения, песня, фильм, текст истории).
 
 1. В Supabase: **SQL Editor** → выполни скрипт из `supabase/migrations/001_birth_vibes_events.sql`.
-2. В `.env.local` / Vercel добавь (секреты не коммитить):
-   - URL: `SUPABASE_URL` или **`NEXT_PUBLIC_SUPABASE_URL`** (как в новом UI Supabase)
-   - Ключ (по приоритету):
-     - **`SUPABASE_SERVICE_ROLE_KEY`** — лучший вариант (обходит RLS)
-     - или **`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY`** — если в дашборде только publishable: тогда **дополнительно** выполни SQL из `supabase/migrations/002_allow_anon_insert_birth_vibes.sql`, иначе `insert` упадёт по RLS.  
-       ⚠️ Publishable-ключ публичный: теоретически кто угодно может слать строки в эту таблицу — для серьёзного продакшена лучше найти **secret / service_role** в проекте.
+2. В **`.env.local`** и отдельно в **Vercel** (Settings → *Environment Variables* → выбери *Production*, не только Preview):
+
+   | Переменная | Значение |
+   |------------|----------|
+   | **`NEXT_PUBLIC_SUPABASE_URL`** | Project URL (`https://xxx.supabase.co`) |
+   | **`NEXT_PUBLIC_SUPABASE_ANON_KEY`** | anon / publishable key из Supabase **API** |
+   | *или* **`SUPABASE_SERVICE_ROLE_KEY`** | service_role (секрет, без `NEXT_PUBLIC_`) — обходит RLS, миграция 002 не нужна |
+
+   После добавления переменных на Vercel сделай **Redeploy** (иначе API-роуты не увидят новые значения).
+
+   Если используешь **anon / publishable** (не service_role), выполни SQL из `supabase/migrations/002_allow_anon_insert_birth_vibes.sql`, иначе `insert` упадёт по RLS.
+
+   ⚠️ Anon/publishable публичные — для строгого продакшена лучше **service_role** только в Vercel без префикса `NEXT_PUBLIC_`.
 
 Строку `SUPABASE_CONNECTION_STRING` для этой фичи не используем (только JS-клиент).
 

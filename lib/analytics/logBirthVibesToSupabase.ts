@@ -1,4 +1,4 @@
-import { getSupabaseAdmin } from "@/lib/supabase/admin";
+import { describeMissingSupabaseEnv, getSupabaseAdmin } from "@/lib/supabase/admin";
 
 export type BirthVibesEventRow = {
   name: string;
@@ -18,7 +18,7 @@ export async function logBirthVibesToSupabase(row: BirthVibesEventRow): Promise<
   const supabase = getSupabaseAdmin();
   if (!supabase) {
     console.warn(
-      "[birth-vibes] Supabase analytics skipped: set NEXT_PUBLIC_SUPABASE_URL (or SUPABASE_URL) and a key: SUPABASE_SERVICE_ROLE_KEY (best) or NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY (then run migration 002_allow_anon_insert_birth_vibes.sql)"
+      `[birth-vibes] Supabase analytics skipped on server (no URL/key in env). ${describeMissingSupabaseEnv()}`
     );
     return;
   }

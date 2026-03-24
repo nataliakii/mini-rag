@@ -2,8 +2,9 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import BirthVibesForm from "@/components/BirthVibesForm";
-import Navbar from "./navbar";
+import Navbar from "@/components/Navbar";
 
 type LinkedInResponse = {
   post: string;
@@ -20,7 +21,9 @@ const theme = {
   accentGradient: "bg-gradient-to-r from-purple-500 to-pink-500",
 };
 
-export default function Home() {
+export default function HomePage() {
+  const t = useTranslations("home");
+  const tNav = useTranslations("nav");
   const [tab, setTab] = useState<"linkedin" | "birth">("birth");
   const [search, setSearch] = useState<string>("");
   const [response, setResponse] = useState<LinkedInResponse | null>(null);
@@ -33,7 +36,7 @@ export default function Home() {
       setError(null);
       setLoading(true);
 
-      const response = await fetch("/api/search", {
+      const res = await fetch("/api/search", {
         method: "POST",
         body: JSON.stringify({ search }),
         headers: {
@@ -41,8 +44,8 @@ export default function Home() {
         },
       });
 
-      const data = await response.json();
-      if (!response.ok) {
+      const data = await res.json();
+      if (!res.ok) {
         setError(data?.error ?? "Request failed");
         return;
       }
@@ -52,7 +55,7 @@ export default function Home() {
       if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError("An unexpected error occurred");
+        setError(t("ragErrorUnexpected"));
       }
     } finally {
       setLoading(false);
@@ -81,15 +84,17 @@ export default function Home() {
       <main className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center gap-8">
         <Navbar />
 
-        <section className="mt-16 text-center animate-[fadeIn_900ms_ease-out]">
+        <section
+          className="mt-16 text-center animate-[fadeIn_900ms_ease-out]"
+          aria-labelledby="main-heading"
+        >
           <h1
+            id="main-heading"
             className={`text-4xl sm:text-5xl font-extrabold tracking-tight ${theme.heroGradient} bg-clip-text text-transparent`}
           >
-            The World When You Arrived
+            {t("heroTitle")}
           </h1>
-          <p className="mt-4 text-zinc-600 max-w-xl mx-auto">
-            Find out what was happening in cinemas and on the radio while you were being born.
-          </p>
+          <p className="mt-4 text-zinc-600 max-w-xl mx-auto">{t("heroSubtitle")}</p>
         </section>
 
         <div className="mt-2 flex items-center gap-2 rounded-2xl border border-zinc-200 bg-white/70 p-1 backdrop-blur-md shadow-lg">
@@ -101,7 +106,7 @@ export default function Home() {
                 : "text-zinc-600 hover:text-black hover:scale-[1.02]"
             }`}
           >
-            BIRTH VIBES
+            {t("tabBirth")}
           </button>
           <button
             onClick={() => setTab("linkedin")}
@@ -111,7 +116,7 @@ export default function Home() {
                 : "text-zinc-600 hover:text-black hover:scale-[1.02]"
             }`}
           >
-            RAG Query Fun
+            {t("tabRag")}
           </button>
         </div>
 
@@ -125,7 +130,7 @@ export default function Home() {
                 onChange={(e) => setSearch(e.target.value)}
                 onKeyDown={handleKeyPress}
                 type="text"
-                placeholder="Enter search term..."
+                placeholder={t("ragPlaceholder")}
               />
             )}
 
@@ -134,7 +139,7 @@ export default function Home() {
                 onClick={handleSearch}
                 className={`rounded-xl px-5 py-2 ${theme.accentGradient} text-white transition-transform hover:scale-105`}
               >
-                {loading ? "Searching..." : "Search"}
+                {loading ? t("ragSearching") : t("ragSearch")}
               </button>
             )}
 
@@ -157,7 +162,7 @@ export default function Home() {
                   />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 1116 0A8 8 0 014 12z" />
                 </svg>
-                <p className="text-blue-500">Thinking...</p>
+                <p className="text-blue-500">{t("ragThinking")}</p>
               </div>
             )}
 
@@ -184,10 +189,10 @@ export default function Home() {
 
         <footer className="mt-3 w-full max-w-4xl rounded-2xl border border-zinc-200 bg-white px-5 py-4 shadow-lg">
           <div className="flex flex-col items-center gap-2 text-sm text-zinc-700">
-            <p className="font-medium text-center">Built with AI + a bit of magic ✨</p>
+            <p className="font-medium text-center">{t("footerTagline")}</p>
             <Image
               src="/logo7.png"
-              alt="Nataliaki logo"
+              alt={tNav("logoAlt")}
               width={130}
               height={74}
               className="rounded object-contain"
@@ -200,7 +205,7 @@ export default function Home() {
   );
 }
 
-const renderWithLinks = (text: string) => {
+function renderWithLinks(text: string) {
   const urlRegex = /(https?:\/\/[^\s]+)/g;
 
   return text.split(urlRegex).map((part, index) =>
@@ -218,4 +223,4 @@ const renderWithLinks = (text: string) => {
       part
     )
   );
-};
+}

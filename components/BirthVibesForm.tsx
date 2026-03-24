@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import { useLocale, useTranslations } from "next-intl";
 import MusicPlayer from "@/components/MusicPlayer";
 import type { PlayableTrack } from "@/lib/music/getPlayableTrack";
 
@@ -18,16 +19,14 @@ type BirthVibesResult = {
   text: string;
 };
 
-type SupportedLanguage = "russian" | "ukrainian" | "french" | "greek" | "spanish" | "german";
+type SupportedLanguage = "russian" | "ukrainian" | "greek" | "spanish";
 
-const languageOptions: Array<{ value: SupportedLanguage; label: string }> = [
-  { value: "russian", label: "Русский" },
-  { value: "ukrainian", label: "Українська" },
-  { value: "french", label: "Français" },
-  { value: "greek", label: "Ελληνικά" },
-  { value: "spanish", label: "Español" },
-  { value: "german", label: "Deutsch" },
-];
+const localeToTarget: Record<string, SupportedLanguage> = {
+  ru: "russian",
+  uk: "ukrainian",
+  el: "greek",
+  es: "spanish",
+};
 
 type BirthVibesFormProps = {
   accentGradient?: string;
@@ -36,11 +35,23 @@ type BirthVibesFormProps = {
 export default function BirthVibesForm({
   accentGradient = "bg-gradient-to-r from-purple-500 to-pink-500",
 }: BirthVibesFormProps) {
-  const loadingPhrases = [
-    "Reconstructing your birth moment...",
-    "Scanning cinemas and radio waves...",
-    "Finding your vibe...",
-  ] as const;
+  const t = useTranslations("birth");
+  const locale = useLocale();
+
+  const loadingPhrases = useMemo(
+    () => [t("loading1"), t("loading2"), t("loading3")] as const,
+    [t]
+  );
+
+  const languageOptions: Array<{ value: SupportedLanguage; label: string }> = useMemo(
+    () => [
+      { value: "russian", label: t("langRussian") },
+      { value: "ukrainian", label: t("langUkrainian") },
+      { value: "greek", label: t("langGreek") },
+      { value: "spanish", label: t("langSpanish") },
+    ],
+    [t]
+  );
 
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
@@ -49,23 +60,28 @@ export default function BirthVibesForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loadingMessage, setLoadingMessage] = useState<string>(loadingPhrases[0]);
-  const [targetLanguage, setTargetLanguage] = useState<SupportedLanguage>("russian");
+  const [targetLanguage, setTargetLanguage] = useState<SupportedLanguage>(
+    () => localeToTarget[locale] ?? "russian"
+  );
   const [translatedText, setTranslatedText] = useState<string | null>(null);
   const [translationLoading, setTranslationLoading] = useState(false);
   const [translationError, setTranslationError] = useState<string | null>(null);
   const [shareError, setShareError] = useState<string | null>(null);
   const [shareNotice, setShareNotice] = useState<string | null>(null);
 
+  useEffect(() => {
+    const next = localeToTarget[locale];
+    if (next) setTargetLanguage(next);
+  }, [locale]);
+
   const getShareIntro = (language: SupportedLanguage) => {
-    const intros: Record<SupportedLanguage, string> = {
-      russian: "Вот так началась моя история 🎬",
-      ukrainian: "Ось як почалася моя історія 🎬",
-      french: "Voici comment mon histoire a commencé 🎬",
-      greek: "Ετσι ξεκινησε η ιστορια μου 🎬",
-      spanish: "Asi comenzo mi historia 🎬",
-      german: "So begann meine Geschichte 🎬",
+    const keys: Record<SupportedLanguage, string> = {
+      russian: t("shareIntroRussian"),
+      ukrainian: t("shareIntroUkrainian"),
+      greek: t("shareIntroGreek"),
+      spanish: t("shareIntroSpanish"),
     };
-    return intros[language];
+    return keys[language];
   };
 
   const resolveShareableUrl = () => {
@@ -100,9 +116,7 @@ export default function BirthVibesForm({
 
     const pageUrl = resolveShareableUrl();
     if (!pageUrl) {
-      setShareError(
-        "Sharing from localhost is limited. Add NEXT_PUBLIC_APP_URL to .env.local with your deployed app URL."
-      );
+      setShareError(t("shareErrorLocalhost"));
       setShareNotice(null);
       return;
     }
@@ -124,11 +138,9 @@ export default function BirthVibesForm({
       shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
       try {
         await navigator.clipboard.writeText(`${shareText}\n\n${pageUrl}`);
-        setShareNotice("Text copied. Paste it into the LinkedIn post after the share window opens.");
+        setShareNotice(t("shareLinkedInNotice"));
       } catch {
-        setShareNotice(
-          "LinkedIn does not reliably prefill text. Copy your story manually and paste it into the post."
-        );
+        setShareNotice(t("shareLinkedInFallback"));
       }
     } else {
       shareUrl = `https://twitter.com/intent/tweet?text=${xText}&url=${encodedUrl}`;
@@ -139,7 +151,7 @@ export default function BirthVibesForm({
 
   const handleSubmit = async (preserveResult = false) => {
     if (!date) {
-      setError("Please pick your birth date first.");
+      setError(t("errorPickDate"));
       return;
     }
 
@@ -164,13 +176,13 @@ export default function BirthVibesForm({
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data?.error ?? "Failed to reveal your vibe.");
+        setError(data?.error ?? t("errorGeneric"));
         return;
       }
 
       setResult(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Unexpected error");
+      setError(err instanceof Error ? err.message : t("errorGeneric"));
     } finally {
       setLoading(false);
     }
@@ -195,13 +207,15 @@ export default function BirthVibesForm({
 
       const data = await res.json();
       if (!res.ok) {
-        setTranslationError(data?.error ?? "Translation failed.");
+        setTranslationError(data?.error ?? t("translationError"));
         return;
       }
 
       setTranslatedText(data.translatedText ?? null);
     } catch (err) {
-      setTranslationError(err instanceof Error ? err.message : "Unexpected translation error");
+      setTranslationError(
+        err instanceof Error ? err.message : t("translationErrorUnexpected")
+      );
     } finally {
       setTranslationLoading(false);
     }
@@ -214,7 +228,7 @@ export default function BirthVibesForm({
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Name (optional)"
+          placeholder={t("namePlaceholder")}
           className="rounded-xl border border-zinc-300 px-3 py-2 bg-white"
         />
         <input
@@ -238,13 +252,11 @@ export default function BirthVibesForm({
               : `${accentGradient} hover:scale-105`
           }`}
         >
-          {loading ? "Loading vibe..." : "Reveal my vibe"}
+          {loading ? t("loading") : t("reveal")}
         </button>
       </div>
 
-      <p className="text-base sm:text-lg text-zinc-600 mt-2 text-center">
-        Pick your birthday and discover your birth vibes.
-      </p>
+      <p className="text-base sm:text-lg text-zinc-600 mt-2 text-center">{t("subtitle")}</p>
 
       {loading && (
         <div className="mt-2 text-sm text-zinc-600 animate-pulse">
@@ -262,7 +274,7 @@ export default function BirthVibesForm({
       {result && (
         <div className="mt-5 space-y-3 rounded-2xl bg-zinc-50 p-2 sm:p-6 border border-zinc-200 shadow-[0_0_40px_rgba(168,85,247,0.15)] animate-[fadeInUp_500ms_ease-out]">
           <div className="rounded-2xl border border-zinc-200 bg-white p-2 sm:p-4 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-500 ease-out opacity-0 scale-95 animate-[fadeInUp_500ms_ease-out_140ms_forwards]">
-            <p className="text-sm font-medium mb-1 sm:mb-2">🎵 This was playing while you were being born</p>
+            <p className="text-sm font-medium mb-1 sm:mb-2">{t("musicHeading")}</p>
             <MusicPlayer playable={result.playable} />
           </div>
 
@@ -270,10 +282,15 @@ export default function BirthVibesForm({
             <p className="leading-relaxed">{result.text}</p>
 
             <div className="mt-4 flex flex-col sm:flex-row gap-2 sm:items-center">
+              <label className="sr-only" htmlFor="translate-lang">
+                {t("translateLanguage")}
+              </label>
               <select
+                id="translate-lang"
                 value={targetLanguage}
                 onChange={(e) => setTargetLanguage(e.target.value as SupportedLanguage)}
                 className="rounded-xl border border-zinc-300 px-3 py-2 bg-white text-sm"
+                aria-label={t("translateLanguage")}
               >
                 {languageOptions.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -290,7 +307,7 @@ export default function BirthVibesForm({
                     : `${accentGradient} hover:scale-105`
                 }`}
               >
-                {translationLoading ? "Translating..." : "Translate story"}
+                {translationLoading ? t("translating") : t("translateButton")}
               </button>
             </div>
 
@@ -298,7 +315,7 @@ export default function BirthVibesForm({
             {translatedText && (
               <div className="mt-3 rounded-xl border border-purple-200 bg-white p-3 animate-[fadeInUp_400ms_ease-out]">
                 <p className="text-xs uppercase tracking-wide text-purple-600 font-semibold mb-1">
-                  Translation
+                  {t("translationHeading")}
                 </p>
                 <p className="leading-relaxed">{translatedText}</p>
               </div>
@@ -306,7 +323,7 @@ export default function BirthVibesForm({
 
             <div className="mt-4 flex flex-wrap items-center gap-2">
               <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-                Share:
+                {t("share")}
               </span>
               <button
                 onClick={() => handleShare("facebook")}
@@ -344,27 +361,27 @@ export default function BirthVibesForm({
                   />
                 ) : (
                   <div className="w-40 h-60 rounded-xl border border-dashed border-zinc-300 flex items-center justify-center text-xs text-zinc-500 p-2 text-center">
-                    Poster not available
+                    {t("posterUnavailable")}
                   </div>
                 )}
               </div>
               <div>
                 <p>
-                🎬 <strong>{result.movie.title}</strong>
+                  🎬 <strong>{result.movie.title}</strong>
                 </p>
                 <p className="mt-2 text-sm text-zinc-700">{result.movie.overview}</p>
                 <p className="mt-2 text-xs text-zinc-600">
-                  <strong>Actors:</strong>{" "}
-                  {result.movie.actors.length > 0 ? result.movie.actors.join(", ") : "Unknown"}
+                  <strong>{t("actors")}:</strong>{" "}
+                  {result.movie.actors.length > 0 ? result.movie.actors.join(", ") : t("unknown")}
                 </p>
                 <p className="text-xs text-zinc-600">
-                  <strong>Director:</strong> {result.movie.director || "Unknown"}
+                  <strong>{t("director")}:</strong> {result.movie.director || t("unknown")}
                 </p>
               </div>
             </div>
           ) : (
             <p className="text-zinc-600 opacity-0 animate-[fadeInUp_500ms_ease-out_340ms_forwards]">
-              🎬 Movie highlight not available for this date.
+              {t("movieUnavailable")}
             </p>
           )}
 
@@ -373,7 +390,7 @@ export default function BirthVibesForm({
             disabled={loading}
             className={`mt-1 rounded-xl px-4 py-2 text-sm text-white ${accentGradient} hover:scale-105 transition-transform disabled:bg-zinc-400 disabled:scale-100 opacity-0 animate-[fadeInUp_500ms_ease-out_420ms_forwards]`}
           >
-            Generate another version
+            {t("regenerate")}
           </button>
         </div>
       )}
