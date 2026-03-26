@@ -8,6 +8,10 @@ export type BirthVibesEventRow = {
   songArtist: string;
   movieTitle: string;
   story: string;
+  clientIp: string;
+  referrer: string;
+  requestOrigin: string;
+  userAgent: string;
 };
 
 /**
@@ -31,6 +35,10 @@ export async function logBirthVibesToSupabase(row: BirthVibesEventRow): Promise<
     song_artist: row.songArtist,
     movie_title: row.movieTitle.trim() ? row.movieTitle.trim() : null,
     story: row.story,
+    client_ip: row.clientIp.trim() ? row.clientIp.trim() : null,
+    referrer: row.referrer.trim() ? row.referrer.trim() : null,
+    request_origin: row.requestOrigin.trim() ? row.requestOrigin.trim() : null,
+    user_agent: row.userAgent.trim() ? row.userAgent.trim() : null,
   });
 
   if (error) {

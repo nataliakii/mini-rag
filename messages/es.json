@@ -81,7 +81,7 @@
   },
   "cookie": {
     "title": "Aviso de cookies",
-    "description": "Usamos cookies y local storage para guardar ajustes. También recopilamos consultas enviadas (por ejemplo texto de búsqueda, nombre, fecha y hora) para mejorar la calidad de la app y la analítica.",
+    "description": "Usamos cookies y local storage para guardar ajustes. También recopilamos consultas enviadas y metadatos técnicos de la solicitud (dirección IP, referer, origin y user-agent) para mejorar la calidad de la app y la analítica.",
     "accept": "Aceptar"
   }
 }

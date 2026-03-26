@@ -81,7 +81,7 @@
   },
   "cookie": {
     "title": "Cookie notice",
-    "description": "We use cookies and local storage to remember settings. We also collect submitted queries (for example search text, name, date and time values) to improve app quality and analytics.",
+    "description": "We use cookies and local storage to remember settings. We also collect submitted queries and technical request metadata (IP address, referrer, origin, and user-agent) to improve app quality and analytics.",
     "accept": "Accept"
   }
 }

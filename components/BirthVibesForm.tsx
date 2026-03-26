@@ -195,7 +195,12 @@ export default function BirthVibesForm({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ date, time: time || undefined, name: name.trim() }),
+        body: JSON.stringify({
+          date,
+          time: time || undefined,
+          name: name.trim(),
+          storyLanguage: localeToTarget[locale] ?? "english",
+        }),
       });
 
       const data = await res.json();

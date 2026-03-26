@@ -132,9 +132,11 @@ npm run dev
 
 ## Аналитика Birth Vibes (Supabase)
 
-После каждой **успешной** генерации API пишет строку в таблицу **`birth_vibes_events`** в Supabase (имя, дата/время рождения, песня, фильм, текст истории).
+После каждой **успешной** генерации API пишет строку в таблицу **`birth_vibes_events`** в Supabase (имя, дата/время рождения, песня, фильм, текст истории, IP, referer/origin, user-agent).
 
-1. В Supabase: **SQL Editor** → выполни скрипт из `supabase/migrations/001_birth_vibes_events.sql`.
+1. В Supabase: **SQL Editor** → выполни скрипты:
+   - `supabase/migrations/001_birth_vibes_events.sql`
+   - `supabase/migrations/004_add_request_metadata_to_birth_vibes_events.sql`
 2. В **`.env.local`** и отдельно в **Vercel** (Settings → *Environment Variables* → выбери *Production*, не только Preview):
 
    | Переменная | Значение |
