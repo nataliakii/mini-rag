@@ -32,10 +32,11 @@
     "ragErrorUnexpected": "Απρόσμενο σφάλμα"
   },
   "birth": {
-    "namePlaceholder": "Όνομα (προαιρετικό)",
+    "namePlaceholder": "Όνομα",
     "reveal": "Δείξε το vibe μου",
     "loading": "Φόρτωση vibe…",
     "subtitle": "Διάλεξε τα γενέθλιά σου και ανακάλυψε τα birth vibes σου.",
+    "errorNameRequired": "Παρακαλώ συμπλήρωσε όνομα.",
     "errorPickDate": "Διάλεξε πρώτα την ημερομηνία γέννησης.",
     "errorGeneric": "Αποτυχία φόρτωσης vibe.",
     "errorUnexpected": "Απρόσμενο σφάλμα",
@@ -77,5 +78,10 @@
     "shareIntroSpanish": "Asi comenzo mi historia 🎬",
     "shareIntroItalian": "Così è iniziata la mia storia 🎬",
     "shareIntroTurkish": "Hikayem böyle başladı 🎬"
+  },
+  "cookie": {
+    "title": "Ειδοποίηση cookie",
+    "description": "Χρησιμοποιούμε cookie και local storage για αποθήκευση ρυθμίσεων. Επίσης συλλέγουμε τα υποβλημένα αιτήματα (π.χ. κείμενο αναζήτησης, όνομα, ημερομηνία και ώρα) για βελτίωση ποιότητας εφαρμογής και analytics.",
+    "accept": "Αποδοχή"
   }
 }

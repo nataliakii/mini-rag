@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import BirthVibesForm from "@/components/BirthVibesForm";
+import CookieConsentBanner from "@/components/CookieConsentBanner";
 import Navbar from "@/components/Navbar";
 
 type LinkedInResponse = {
@@ -201,6 +202,7 @@ export default function HomePage() {
           </div>
         </footer>
       </main>
+      <CookieConsentBanner />
     </div>
   );
 }

@@ -27,6 +27,9 @@ export async function POST(req: Request) {
     if (!date) {
       return NextResponse.json({ error: "Date is required" }, { status: 400 });
     }
+    if (!name) {
+      return NextResponse.json({ error: "Name is required" }, { status: 400 });
+    }
 
     const parsedDate = new Date(date);
     if (Number.isNaN(parsedDate.getTime())) {
@@ -66,10 +69,7 @@ ${topMoviesPreview}
 `
         : "";
 
-    const subjectIntro =
-      name && name.length > 0
-        ? `A person named ${name} was born on ${date}${time ? ` at ${time}` : ""}.`
-        : `A person was born on ${date}${time ? ` at ${time}` : ""}.`;
+    const subjectIntro = `A person named ${name} was born on ${date}${time ? ` at ${time}` : ""}.`;
 
     const birthMomentInstruction = time
       ? `Explicitly mention both the birth date (${date}) and exact birth time (${time}) in the story.`
@@ -93,8 +93,7 @@ Include two parallel scenes:
 ${birthMomentInstruction}
 Keep it to 2-4 sentences.
 End with a dramatic, cinematic final sentence announcing the birth moment.
-If a name is provided, include it naturally in that final line.
-If no name is provided, do not invent one and keep wording neutral.
+Include the provided name naturally in that final line.
 Do not copy templates word-for-word; vary phrasing every time.
 Examples of tone only (do not copy): "And just like that, NAME entered the world...", "a new story began — NAME."
 No hashtags.`;

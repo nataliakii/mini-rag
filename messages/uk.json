@@ -32,10 +32,11 @@
     "ragErrorUnexpected": "Неочікувана помилка"
   },
   "birth": {
-    "namePlaceholder": "Імʼя (необовʼязково)",
+    "namePlaceholder": "Імʼя",
     "reveal": "Показати мій вайб",
     "loading": "Завантажую вайб…",
     "subtitle": "Обери дату народження і дізнайся свої birth vibes.",
+    "errorNameRequired": "Будь ласка, введи імʼя.",
     "errorPickDate": "Спочатку обери дату народження.",
     "errorGeneric": "Не вдалося отримати вайб.",
     "errorUnexpected": "Неочікувана помилка",
@@ -77,5 +78,10 @@
     "shareIntroSpanish": "Asi comenzo mi historia 🎬",
     "shareIntroItalian": "Così è iniziata la mia storia 🎬",
     "shareIntroTurkish": "Hikayem böyle başladı 🎬"
+  },
+  "cookie": {
+    "title": "Повідомлення про cookie",
+    "description": "Ми використовуємо cookie та local storage для збереження налаштувань. Також ми збираємо надіслані запити (наприклад, текст пошуку, імʼя, дату і час), щоб покращувати якість застосунку та аналітику.",
+    "accept": "Прийняти"
   }
 }

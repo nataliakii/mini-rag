@@ -170,6 +170,11 @@ export default function BirthVibesForm({
   };
 
   const handleSubmit = async (preserveResult = false) => {
+    if (!name.trim()) {
+      setError(t("errorNameRequired"));
+      return;
+    }
+
     if (!date) {
       setError(t("errorPickDate"));
       return;
@@ -190,7 +195,7 @@ export default function BirthVibesForm({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ date, time: time || undefined, name: name || undefined }),
+        body: JSON.stringify({ date, time: time || undefined, name: name.trim() }),
       });
 
       const data = await res.json();
@@ -249,6 +254,7 @@ export default function BirthVibesForm({
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder={t("namePlaceholder")}
+          required
           className="rounded-xl border border-zinc-300 px-3 py-2 bg-white"
         />
         <input

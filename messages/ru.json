@@ -32,10 +32,11 @@
     "ragErrorUnexpected": "Неожиданная ошибка"
   },
   "birth": {
-    "namePlaceholder": "Имя (необязательно)",
+    "namePlaceholder": "Имя",
     "reveal": "Показать мой вайб",
     "loading": "Загружаю вайб…",
     "subtitle": "Выбери дату рождения и узнай свои birth vibes.",
+    "errorNameRequired": "Пожалуйста, введи имя.",
     "errorPickDate": "Сначала выбери дату рождения.",
     "errorGeneric": "Не удалось получить вайб.",
     "errorUnexpected": "Неожиданная ошибка",
@@ -77,5 +78,10 @@
     "shareIntroSpanish": "Asi comenzo mi historia 🎬",
     "shareIntroItalian": "Così è iniziata la mia storia 🎬",
     "shareIntroTurkish": "Hikayem böyle başladı 🎬"
+  },
+  "cookie": {
+    "title": "Уведомление о cookie",
+    "description": "Мы используем cookie и local storage для сохранения настроек. Также мы собираем отправленные запросы (например, текст поиска, имя, дату и время), чтобы улучшать качество приложения и аналитику.",
+    "accept": "Принять"
   }
 }

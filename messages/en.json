@@ -32,10 +32,11 @@
     "ragErrorUnexpected": "An unexpected error occurred"
   },
   "birth": {
-    "namePlaceholder": "Name (optional)",
+    "namePlaceholder": "Name",
     "reveal": "Reveal my vibe",
     "loading": "Loading vibe...",
     "subtitle": "Pick your birthday and discover your birth vibes.",
+    "errorNameRequired": "Please enter your name.",
     "errorPickDate": "Please pick your birth date first.",
     "errorGeneric": "Failed to reveal your vibe.",
     "errorUnexpected": "Unexpected error",
@@ -77,5 +78,10 @@
     "shareIntroSpanish": "Asi comenzo mi historia 🎬",
     "shareIntroItalian": "Così è iniziata la mia storia 🎬",
     "shareIntroTurkish": "Hikayem böyle başladı 🎬"
+  },
+  "cookie": {
+    "title": "Cookie notice",
+    "description": "We use cookies and local storage to remember settings. We also collect submitted queries (for example search text, name, date and time values) to improve app quality and analytics.",
+    "accept": "Accept"
   }
 }
