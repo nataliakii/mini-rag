@@ -251,6 +251,12 @@ export default function BirthVibesForm({
     }
   };
 
+  const handleEnterToSubmit = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key !== "Enter" || loading) return;
+    event.preventDefault();
+    handleSubmit(false);
+  };
+
   return (
     <div className="w-full max-w-5xl rounded-2xl border border-zinc-200 p-3 sm:p-8 bg-white/90 text-black shadow-xl">
       <div className="mt-3 flex flex-col sm:flex-row gap-2 sm:gap-3 items-center sm:justify-center">
@@ -258,6 +264,7 @@ export default function BirthVibesForm({
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          onKeyDown={handleEnterToSubmit}
           placeholder={t("namePlaceholder")}
           required
           className="rounded-xl border border-zinc-300 px-3 py-2 bg-white"
@@ -266,12 +273,14 @@ export default function BirthVibesForm({
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
+          onKeyDown={handleEnterToSubmit}
           className="rounded-xl border border-zinc-300 px-3 py-2 bg-white"
         />
         <input
           type="time"
           value={time}
           onChange={(e) => setTime(e.target.value)}
+          onKeyDown={handleEnterToSubmit}
           className="rounded-xl border border-zinc-300 px-3 py-2 bg-white"
         />
         <button
